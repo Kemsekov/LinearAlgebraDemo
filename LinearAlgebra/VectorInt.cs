@@ -7,7 +7,7 @@ namespace LinearAlgebra;
 /// <summary>
 /// Represents a vector with <see langword="int"/> field
 /// </summary>
-public class IntVector : IVector<int>
+public class VectorInt : IVector<int>
 {
     int[] Data;
     public ref int this[int index] => ref Data[index];
@@ -16,16 +16,16 @@ public class IntVector : IVector<int>
     /// </summary>
     public int Length => Data.Length;
     /// <summary>
-    /// Initialize new <see cref="IntVector"/> with <paramref name="data"/> array of type <see langword="int"/>
+    /// Initialize new <see cref="VectorInt"/> with <paramref name="data"/> array of type <see langword="int"/>
     /// </summary>
-    public IntVector(int[] data)
+    public VectorInt(int[] data)
     {
         Data = data;
     }
     /// <summary>
-    /// Initialize new <see cref="IntVector"/> of some <paramref name="length"/> and some <paramref name="initialValue"/>
+    /// Initialize new <see cref="VectorInt"/> of some <paramref name="length"/> and some <paramref name="initialValue"/>
     /// </summary>
-    public IntVector(int length, int initialValue = 0){
+    public VectorInt(int length, int initialValue = 0){
         Data = new int[length];
         if(initialValue!=0)
             Array.Fill(Data,initialValue);
@@ -46,11 +46,11 @@ public class IntVector : IVector<int>
     /// Sums of current vector and some other vector
     /// </summary>
     /// <returns>New vector which equals to sum of two previous vectors</returns>
-    public IntVector Sum(IVector<int> another)
+    public VectorInt Sum(IVector<int> another)
     {
         if(another.Length!=Length)
             throw new ArgumentException($"Cannot sum vectors with different size. {Length} != {another.Length}");
-        var result = new IntVector(Length);
+        var result = new VectorInt(Length);
         for(int i = 0;i<Length;i++){
             result[i] = this[i]+another[i];
         }
@@ -61,19 +61,19 @@ public class IntVector : IVector<int>
     /// Subs of current vector and some other vector
     /// </summary>
     /// <returns>New vector which equals to sub of two previous vectors</returns>
-    public IntVector Sub(IVector<int> another)
+    public VectorInt Sub(IVector<int> another)
     {
         if(another.Length!=Length)
             throw new ArgumentException($"Cannot sum vectors with different size. {Length} != {another.Length}");
-        var result = new IntVector(Length);
+        var result = new VectorInt(Length);
         for(int i = 0;i<Length;i++){
             result[i] = this[i]-another[i];
         }
         return result;
     }
     IVector<int> IVector<int>.Sub(IVector<int> another) => Sub(another);
-    public static IntVector operator +(IntVector v1, IVector<int> v2) => v1.Sum(v2);
-    public static IntVector operator -(IntVector v1) => new IntVector(v1.Length,0).Sub(v1);
-    public static IntVector operator -(IntVector v1, IVector<int> v2) => v1.Sub(v2);
-    public static explicit operator double(IntVector v) => v.L2Norm();
+    public static VectorInt operator +(VectorInt v1, IVector<int> v2) => v1.Sum(v2);
+    public static VectorInt operator -(VectorInt v1) => new VectorInt(v1.Length,0).Sub(v1);
+    public static VectorInt operator -(VectorInt v1, IVector<int> v2) => v1.Sub(v2);
+    public static explicit operator double(VectorInt v) => v.L2Norm();
 }

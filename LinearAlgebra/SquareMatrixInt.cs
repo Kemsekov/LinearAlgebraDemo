@@ -225,7 +225,7 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
             }
             result[i] = temp;
         }
-        return new IntVector(result);
+        return new VectorInt(result);
     }
     /// <returns>
     /// <see langword="true"/> if matrix <paramref name="m"/> 

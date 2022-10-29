@@ -8,11 +8,11 @@ namespace LinearAlgebra;
 /// Represents a system of linear equations (SoLE) for systems with int fields.<br/>
 /// Can be used to get solutions to SoLE by Cramers.
 /// </summary>
-public class IntLinearEquationsSystemCramer : ILinearEquationsSystem<int>
+public class LinearEquationsSystemIntCramer : ILinearEquationsSystem<int>
 {
     public IMatrix<int> Coefficients{get;protected set;}
     public IVector<int> FreeCoefficients{get;protected set;}
-    public IntLinearEquationsSystemCramer(IMatrix<int> coefficients, IVector<int> freeCoefficients)
+    public LinearEquationsSystemIntCramer(IMatrix<int> coefficients, IVector<int> freeCoefficients)
     {
         Coefficients = coefficients;
         FreeCoefficients = freeCoefficients;
