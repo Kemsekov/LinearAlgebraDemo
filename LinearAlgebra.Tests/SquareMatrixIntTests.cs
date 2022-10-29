@@ -4,7 +4,7 @@ using LinearAlgebra;
 using LinearAlgebra.Exceptions;
 using Xunit;
 
-namespace Matrix.Tests;
+namespace LinearAlgebra.Tests;
 
 public class SquareMatrixIntTests
 {
@@ -101,5 +101,13 @@ public class SquareMatrixIntTests
             Assert.Equal(m1[el.X,el.Y]*5,el.Value);
         }
     }
-    
+    [Fact]
+    public void MulVector_Test(){
+        var m1 = new SquareMatrixInt(new int[]{1,2,3,4,5,6,7,8,9});
+        var v1 = new IntVector(new int[]{4,5,2});
+        var v2 = m1*v1;
+        Assert.Equal(v2[0],38);
+        Assert.Equal(v2[1],49);
+        Assert.Equal(v2[2],60);
+    }
 }

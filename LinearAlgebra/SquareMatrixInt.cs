@@ -19,10 +19,9 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
     public int Width => Size;
     public int Height => Size;
     int[] Data;
-    public int this[int x, int y]
+    public ref int this[int x, int y]
     {
-        get => Data[x * Size + y];
-        set => Data[x * Size + y] = value;
+        get => ref Data[x * Size + y];
     }
     public ref int At(int x, int y) => ref Data[x * Size + y];
     /// <summary>
@@ -209,7 +208,25 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
         return result;
     }
     IMatrix<int> IMatrix<int>.Mul(IMatrix<int> m) => Mul(m);
-
+    /// <summary>
+    /// Multiplies matrix and a vector.
+    /// </summary>
+    /// <returns>New vector as result of multiplication</returns>
+    public IVector<int> Mul(IVector<int> vector)
+    {
+        if(vector.Length!=Size)
+            throw new ArgumentException($"Wrong vector size. Cannot multiply {vector.Length} vector with {Size} square matrix");
+        var result = new int[vector.Length];
+        int temp;
+        for(int i = 0;i<vector.Length;i++){
+            temp = 0;
+            for(int x = 0;x<vector.Length;x++){
+                temp += this[x,i]*vector[x];
+            }
+            result[i] = temp;
+        }
+        return new IntVector(result);
+    }
     /// <returns>
     /// <see langword="true"/> if matrix <paramref name="m"/> 
     /// is element-vice equal to <see langword="this"/> matrix, 
@@ -245,7 +262,8 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
         => m1.Mul(m2);
     public static SquareMatrixInt operator *(SquareMatrixInt m1, int scalar)
         => m1.Mul(scalar);
-
+    public static IVector<int> operator *(SquareMatrixInt m1, IVector<int> vector)
+        => m1.Mul(vector);
     public static SquareMatrixInt operator !(SquareMatrixInt m)
         => m.Transpose();
 
@@ -296,4 +314,6 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
             builder.Append($"{this[x,y]}\t");
         return builder.ToString();
     }
+
+
 }

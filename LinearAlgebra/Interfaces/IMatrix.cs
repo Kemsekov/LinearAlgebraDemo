@@ -11,10 +11,11 @@ public interface IMatrix<T>
 {
     int Width{get;}
     int Height{get;}
-    T this[int x, int y]{get;set;}
+    ref T this[int x, int y]{get;}
     IMatrix<T> Add(IMatrix<T> m);
     IMatrix<T> Sub(IMatrix<T> m);
     IMatrix<T> Mul(T scalar);
+    IVector<T> Mul(IVector<T> vector);
     IMatrix<T> Mul(IMatrix<T> m);
     IMatrix<T> Transpose();
     T Determinant();
