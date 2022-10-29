@@ -60,13 +60,15 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
     /// In other words returns matrix minor of some coordinates.<br/>
     /// </summary>
     /// <returns>New matrix which is minor of some coordinates</returns>
-    public SquareMatrixInt Minor(int x, int y){
-        var size = Size-1;
+    public SquareMatrixInt Minor(int x, int y)
+    {
+        var size = Size - 1;
         var m = new SquareMatrixInt(size);
         int count = 0;
-        foreach(var el in this){
-            if(el.X==x || el.Y==y) continue;
-            m[count/size,count%size] = el.Value;
+        foreach (var el in this)
+        {
+            if (el.X == x || el.Y == y) continue;
+            m[count / size, count % size] = el.Value;
             count++;
         }
         return m;
@@ -78,15 +80,16 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
     /// <returns>Determinant value</returns>
     public int Determinant()
     {
-        if(Size==1) return this[0,0];
-        if(Size==2) return Determinant2x2(this);
-        if(Size==3) return Determinant3x3(this);
+        if (Size == 1) return this[0, 0];
+        if (Size == 2) return Determinant2x2(this);
+        if (Size == 3) return Determinant3x3(this);
         int result = 0;
-        for(int x = 0;x<Size;x++){
-            if(x%2!=0)
-                result += this[x,0]*Minor(x,0).Determinant();
+        for (int x = 0; x < Size; x++)
+        {
+            if (x % 2 != 0)
+                result += this[x, 0] * Minor(x, 0).Determinant();
             else
-                result -= this[x,0]*Minor(x,0).Determinant();
+                result -= this[x, 0] * Minor(x, 0).Determinant();
         }
         return result;
     }
@@ -98,22 +101,25 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
         for (int i = 0; i < Size; i++)
         {
             temp = 1;
-            for(int j = 0;j<Size;j++){
-                temp*=m[(i+j)%Size,j];
+            for (int j = 0; j < Size; j++)
+            {
+                temp *= m[(i + j) % Size, j];
             }
-            result+=temp;
+            result += temp;
             temp = 1;
-            for(int j = 0;j<Size;j++){
-                temp*=m[(i-j+Size)%Size,j];
+            for (int j = 0; j < Size; j++)
+            {
+                temp *= m[(i - j + Size) % Size, j];
             }
-            result-=temp;
+            result -= temp;
         }
 
         return result;
     }
     // Computes determinant of 2x2 matrix
-    int Determinant2x2(IMatrix<int> m){
-        return m[0,0]*m[1,1]-m[0,1]*m[1,0];
+    int Determinant2x2(IMatrix<int> m)
+    {
+        return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
     }
     /// <summary>
     /// Adds two square matrices
@@ -214,14 +220,16 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
     /// <returns>New vector as result of multiplication</returns>
     public IVector<int> Mul(IVector<int> vector)
     {
-        if(vector.Length!=Size)
+        if (vector.Length != Size)
             throw new ArgumentException($"Wrong vector size. Cannot multiply {vector.Length} vector with {Size} square matrix");
         var result = new int[vector.Length];
         int temp;
-        for(int i = 0;i<vector.Length;i++){
+        for (int i = 0; i < vector.Length; i++)
+        {
             temp = 0;
-            for(int x = 0;x<vector.Length;x++){
-                temp += this[x,i]*vector[x];
+            for (int x = 0; x < vector.Length; x++)
+            {
+                temp += this[x, i] * vector[x];
             }
             result[i] = temp;
         }
@@ -244,7 +252,7 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
     }
     public override bool Equals(object? obj)
     {
-        if(obj is IMatrix<int> m)
+        if (obj is IMatrix<int> m)
             return Equals(m);
         return false;
     }
@@ -309,9 +317,16 @@ public class SquareMatrixInt : IMatrix<int>, IEnumerable<(int X, int Y, int Valu
     public override string ToString()
     {
         var builder = new StringBuilder();
-        for(int y = 0;y<Size;y++, builder.Append('\n'))
-        for(int x = 0;x<Size;x++)
-            builder.Append($"{this[x,y]}\t");
+        for (int y = 0; y < Size; y++)
+        {
+            builder.Append("|");
+            for (int x = 0; x < Size; x++){
+                builder.Append($"{this[x, y]}");
+                if(x+1!=Size)
+                    builder.Append('\t');
+            }
+            builder.Append("|\n");
+        }
         return builder.ToString();
     }
 
